@@ -1,6 +1,5 @@
 # IotNetSim
-![alt text](https://github.com/m-salama/IotNetSim/blob/master/thumbnailImage.jpg "IoTNetSim")
-
+<img align="right" src="https://github.com/m-salama/IotNetSim/blob/master/thumbnailImage.jpg" alt="IoTNetSim">
 
 IoTNetSim is an open-source platform for modelling and simulation of end-to-end IoT services and networking. This repository is the online resources of the paper published in UCC 2019.
 
