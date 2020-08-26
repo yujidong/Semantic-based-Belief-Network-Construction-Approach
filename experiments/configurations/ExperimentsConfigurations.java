@@ -37,14 +37,14 @@ package configurations;
 public class ExperimentsConfigurations {
 	
 	//for setting the number of days to run the experiment
-	public static int EXP_NO_OF_DAYS = 30;
+	public static int EXP_NO_OF_DAYS = 7;
 
 	//variable readingInterval is used to represent the different reading intervals
-	public static double READING_INTERVAL[] = {24*60*60, 12*60*60, 6*60*60, 3*60*60};			//every no_of_hours*60min*60sec = every x seconds
+	public static double READING_INTERVAL[] = {24*60*60, 12*60*60, 6*60*60, 3*60*60, 60*60/4};			//every no_of_hours*60min*60sec = every x seconds
 
 
 	//Runtime Workload Constants for IoT
 	//public final static int WORKLOAD_INTERVAL = 24*60*60;   		//every one day in seconds
-	public final static int WORKLOAD_INTERVAL[] = {24*60*60, 12*60*60, 6*60*60, 3*60*60};			//every no_of_hours*60min*60sec = every x seconds
+	public final static int WORKLOAD_INTERVAL[] = {24*60*60, 12*60*60, 6*60*60, 3*60*60, 2*60*60};			//every no_of_hours*60min*60sec = every x seconds
 
 }

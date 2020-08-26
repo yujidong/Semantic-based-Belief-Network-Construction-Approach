@@ -4,9 +4,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.Log;
@@ -62,6 +60,9 @@ import helper.Workload;
  */
 
 public class NaturalEnvIoT {
+
+
+
 	/**
 	 * Creates main() to run this example.
 	 *
@@ -71,6 +72,7 @@ public class NaturalEnvIoT {
 	public static void main(String[] args) {
 
 		try {
+			Locale.setDefault(new Locale("en", "US"));
 			String workingDir = System.getProperty("user.dir");
 			String datasetsFolder = workingDir + "//experiments//datasets//";
 			String inputFolder_workload = workingDir + "/experiments//workload//";
@@ -129,7 +131,7 @@ public class NaturalEnvIoT {
 			broker.submitServiceRequestList(cloudletList);
 
 			//create one IoT testbed
-			createTestbed(datacenter0, configurations.ExperimentsConfigurations.READING_INTERVAL[0], datasetsFolder);
+			createTestbed(datacenter0, configurations.ExperimentsConfigurations.READING_INTERVAL[4], datasetsFolder);
 
 			double lastClock = CloudSim.startSimulation();
 
@@ -158,57 +160,109 @@ public class NaturalEnvIoT {
 	private static void createTestbed(Datacenter datacenter, double readingInterval, String datasetsFolder) {
 		//create one IoT testbed
 		Log.printLine("Creating one testbed...");
-		GeographicRegion region = new GeographicRegion("Conwy_NorthWales", 100.00);
+		GeographicRegion region = new GeographicRegion("Conwy_NorthWales", 90.00);
 
 		//create CloudServer
 		AdvHost cloudServer = Setup.createAdvHost(100, 3, 2);
 
-		//create GatewayNode
-		GatewayNode gatewayNode = new GatewayNode(
-				"GatewayNode", 
-				new Location(200*100, 200*100, 0), 
-				IoTNodeType.GATEWAY_Node, 
-				new NetConnection("conn_3G", new NetConnectionType(), 100.00), 
-				new IoTNodePower(IoTNodePowerType.CONTINUOUS_POWER, true, false, true, 100.00, 0.00, 0.00),
-				datacenter.getId(), 
-				readingInterval+CloudSim.getMinTimeBetweenEvents()*3, 
-				readingInterval+CloudSim.getMinTimeBetweenEvents()*3);
+		Map<String, GatewayNode> gatewayNodeMap = new HashMap<String, GatewayNode>();
+		Map<String, LinkNode> linkNodeMap = new HashMap<String, LinkNode>();
+		Map<String, SensorNode> sensorNodeMap = new HashMap<String, SensorNode>();
 
-		//create LinkNode
-		LinkNode relayNode = new LinkNode(
-				"RelayNode", 
-				new Location(300*100, 300*100, 0), 
-				IoTNodeType.LINK_NODE, 
-				new NetConnection("conn_longRadio", new NetConnectionType(), 100.00), 
-				new IoTNodePower(IoTNodePowerType.USB_CAHRGING, true, false, true, 100.00, 0.00, 0.00),
-				"GatewayNode", 
-				readingInterval+CloudSim.getMinTimeBetweenEvents()*2);
+		List<Location> sensorPatrol = new ArrayList<Location>();
+		for(int i = 1; i <= 3; i++) {
+			for(int j = 1; j <= 3; j++) {
+				sensorPatrol.add(new Location(i*100, j*100, 10));
+			}
+		}
 
-		//create Sensors
-		for (int s=1; s<=3; s++) {
-			SensorNode tempSensor = new SensorNode(
-					"TempSensor"+s, 
-					new Location(400+s*100, 400+s*100, 0), 
-					IoTNodeType.SENSOR, 
-					new NetConnection("conn_shortRadio"+s, new NetConnectionType(), 100.00),
-					new IoTNodePower(IoTNodePowerType.BATTERY, false, true, false, 100, 0.1, 10.00),
-					"RelayNode", 
-					SensorType.AIR_Temperature_SENSOR, 
-					readingInterval, 
-					datasetsFolder+"ukcp09_mean-temperature_1month.csv");
+		for(int i = 0; i < 9; i++) {
+			gatewayNodeMap.put("GatewayNode" + i, new GatewayNode(
+					"GatewayNode" + i,
+					sensorPatrol.get(i),
+					IoTNodeType.GATEWAY_Node,
+					new NetConnection("conn_3G", new NetConnectionType(), 100.00),
+					new IoTNodePower(IoTNodePowerType.CONTINUOUS_POWER, true, false, true, 100.00, 0.00, 0.00),
+					datacenter.getId(),
+					readingInterval+CloudSim.getMinTimeBetweenEvents()*3,
+					readingInterval+CloudSim.getMinTimeBetweenEvents()*3));
+			linkNodeMap.put("RelayNode" + i, new LinkNode(
+					"RelayNode" + i,
+					sensorPatrol.get(i),
+					IoTNodeType.LINK_NODE,
+					new NetConnection("conn_longRadio", new NetConnectionType(), 100.00),
+					new IoTNodePower(IoTNodePowerType.USB_CAHRGING, true, false, true, 100.00, 0.00, 0.00),
+					"GatewayNode" + i,
+					readingInterval+CloudSim.getMinTimeBetweenEvents()*2));
 		}
-		for (int s=1; s<=3; s++) {
-			SensorNode percipSensor = new SensorNode(
-					"PercipSensor"+s, 
-					new Location(400+s*100, 400+s*100, 0), 
-					IoTNodeType.SENSOR, 
-					new NetConnection("conn_shortRadio"+s, new NetConnectionType(), 100.00),
+
+		for(LinkNode linkNode : linkNodeMap.values()) {
+			//create Sensors
+			for (int s=1; s<=2; s++) {
+				sensorNodeMap.put("TempSensor"+s+":"+linkNode.getForwardNodeName(), new SensorNode(
+						"TempSensor"+s+":"+linkNode.getForwardNodeName(),
+						linkNode.getLocation(),
+						IoTNodeType.SENSOR,
+						new NetConnection("conn_shortRadio"+s, new NetConnectionType(), 100.00),
+						new IoTNodePower(IoTNodePowerType.BATTERY, false, true, false, 100, 0.1, 10.00),
+						linkNode.getName(),
+						SensorType.AIR_Temperature_SENSOR,
+						readingInterval,
+						datasetsFolder+"temperatureOneWeek.csv",
+						1 - 0.15 * s,
+						false,
+						new ArrayList<Location>(),
+						false));
+			}
+			sensorNodeMap.put("TempSensor"+3+":"+linkNode.getForwardNodeName(), new SensorNode(
+					"TempSensor"+3+":"+linkNode.getForwardNodeName(),
+					linkNode.getLocation(),
+					IoTNodeType.SENSOR,
+					new NetConnection("conn_shortRadio"+3, new NetConnectionType(), 100.00),
 					new IoTNodePower(IoTNodePowerType.BATTERY, false, true, false, 100, 0.1, 10.00),
-					"RelayNode", 
-					SensorType.WATER_SurfaceFlow_SENSOR, 
-					readingInterval, 
-					datasetsFolder+"ukcp09_rainfall_1month.csv");
+					linkNode.getName(),
+					SensorType.AIR_Temperature_SENSOR,
+					readingInterval,
+					datasetsFolder+"temperatureOneWeekFailed.csv",
+					0.6,
+					false,
+					new ArrayList<Location>(),
+					false));  // broken node in running time
+
+//			for (int s=1; s<=3; s++) {
+//				sensorNodeMap.put("PercipSensor"+s+":"+linkNode.getForwardNodeName(), new SensorNode(
+//						"PercipSensor"+s+":"+linkNode.getForwardNodeName(),
+//						linkNode.getLocation(),
+//						IoTNodeType.SENSOR,
+//						new NetConnection("conn_shortRadio"+s, new NetConnectionType(), 100.00),
+//						new IoTNodePower(IoTNodePowerType.BATTERY, false, true, false, 100, 0.1, 10.00),
+//						linkNode.getName(),
+//						SensorType.WATER_SurfaceFlow_SENSOR,
+//						readingInterval,
+//						datasetsFolder+"ukcp09_rainfall_1month.csv",
+//						0.1 * s,
+//						false,
+//						new ArrayList<Location>()));
+//			}
 		}
+
+		sensorNodeMap.put("TempSensor"+4+":"+"Patrol", new SensorNode(
+				"TempSensor"+4+":"+"Patrol",
+				sensorPatrol.get(0),
+				IoTNodeType.SENSOR,
+				new NetConnection("conn_shortRadio"+3, new NetConnectionType(), 100.00),
+				new IoTNodePower(IoTNodePowerType.BATTERY, false, true, false, 100, 0.1, 10.00),
+				"RelayNode0",
+				SensorType.AIR_Temperature_SENSOR,
+				readingInterval,
+				datasetsFolder+"temperatureOneWeek.csv",
+				1 - 0.01,
+				true,
+				sensorPatrol,
+				true));
+
+
+
 	}
 
 }

@@ -1,0 +1,148 @@
+Starting NaturalEnvironmentIoT simple experiment...
+simulating the testbed of 1 location
+running for 1 month
+for the 3 different scenarios (dry, rainy, flood)
+Scenario with reading every 24.0 hours
+Initialising...
+Start reading workload file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim/experiments//workload//iot//iot_workload_minimal.txt
+Creating one testbed...
+Starting CloudSim version 3.0
+Datacenter_0 is starting...
+Broker is starting...
+
+GatewayNode is starting...
+RelayNode is starting...
+TempSensor1 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_mean-temperature_1month.csv
+TempSensor2 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_mean-temperature_1month.csv
+TempSensor3 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_mean-temperature_1month.csv
+PercipSensor1 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_rainfall_1month.csv
+PercipSensor2 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_rainfall_1month.csv
+PercipSensor3 is starting...
+Get readings from dataset file /Users/aj3620/dockerLearn/spring_cloud/IotNetSim//experiments//datasets//ukcp09_rainfall_1month.csv
+Entities started.
+0.0: [Broker] Trying to Create VM #0 in Datacenter_0
+
+0.1: [Broker] VM #0 (Type# 1) has been created in Datacenter #2, Host #0
+0.1: [Broker] Sending Service Requests to VMs... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4.266666666666667: [Broker] Service Request 0 executed
+86400.0: [TempSensor1] is sending ReadingData no. 0 for Day 2 with value of -0.3353443493601246 to RelayNode
+86400.0: [TempSensor2] is sending ReadingData no. 0 for Day 2 with value of -0.3418486785886263 to RelayNode
+86400.0: [TempSensor3] is sending ReadingData no. 0 for Day 2 with value of -0.3743514575709824 to RelayNode
+86400.0: [PercipSensor1] is sending ReadingData no. 0 for Day 2 with value of 0.0 to RelayNode
+86400.0: [PercipSensor2] is sending ReadingData no. 0 for Day 2 with value of 0.0 to RelayNode
+86400.0: [PercipSensor3] is sending ReadingData no. 0 for Day 2 with value of 0.0 to RelayNode
+86400.1: [RelayNode] is receiving reading data from Sensor TempSensor1 of value -0.3353443493601246
+86400.1: [RelayNode] is receiving reading data from Sensor TempSensor2 of value -0.3418486785886263
+86400.1: [RelayNode] is receiving reading data from Sensor TempSensor3 of value -0.3743514575709824
+86400.1: [RelayNode] is receiving reading data from Sensor PercipSensor1 of value 0.0
+86400.1: [RelayNode] is receiving reading data from Sensor PercipSensor2 of value 0.0
+86400.1: [RelayNode] is receiving reading data from Sensor PercipSensor3 of value 0.0
+86400.2: [RelayNode] is forwarding reading data to GatewayNode
+86400.3: [GatewayNode] is receiving readings data from LinkNode RelayNode
+86400.40000000001: [GatewayNode] is aggregating data received...
+Unwanted errors happen

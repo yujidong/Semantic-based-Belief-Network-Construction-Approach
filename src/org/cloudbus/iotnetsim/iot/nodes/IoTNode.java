@@ -42,6 +42,7 @@ public abstract class IoTNode extends SimEntity {
 	private NetConnection connection;
 	private IoTNodePower power;
 	private int forwardNodeId;
+	private String forwardNodeName;
 
 
 	public IoTNode(String name) {
@@ -74,6 +75,7 @@ public abstract class IoTNode extends SimEntity {
 		this.connection = connection;
 		this.power = power;
 		this.forwardNodeId = CloudSim.getEntityId(forwardNodeName);
+		this.forwardNodeName = forwardNodeName;
 	}
 
 	public void startEntity() {
@@ -159,6 +161,8 @@ public abstract class IoTNode extends SimEntity {
 	public int getForwardNodeId() {
 		return forwardNodeId;
 	}
+
+	public String getForwardNodeName() {return forwardNodeName;}
 
 	public void setForwardNodeId(int forwardNodeId) {
 		this.forwardNodeId = forwardNodeId;

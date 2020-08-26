@@ -411,6 +411,12 @@ public class CloudSimTags {
 	/** This tag is used for a cloud node to process data received  */
 	public static final int IOT_CLOUD_PROCESS_DATA_EVENT = IOT_BASE + 10;
 
+	/** This tag is used for a sensor to move and change a related link node */
+	public static final int IOT_SENSOR_MOVE_EVENT = IOT_BASE + 11;
+
+	/** This tag is used for a sensor to update its uncertainty rate */
+	public static final int IOT_SENSOR_UPDATE_Belief = IOT_BASE + 12;
+
 	public static final int EDGE_NODE_RECEIVE_DATA_EVENT = IOT_BASE + 20;
 	public static final int EDGE_NODE_FILTER_DATA_EVENT = IOT_BASE + 21;
 	public static final int EDGE_NODE_INTERPRET_DATA_EVENT = IOT_BASE + 22;

@@ -1,9 +1,13 @@
 package org.cloudbus.iotnetsim.iot.nodes;
 
+import org.cloudbus.cloudsim.core.CloudSimTags;
+import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.iotnetsim.IoTNodePower;
 import org.cloudbus.iotnetsim.IoTNodeType;
 import org.cloudbus.iotnetsim.Location;
 import org.cloudbus.iotnetsim.network.NetConnection;
+
+import java.util.Map;
 
 /**
  * Title:        IoTNetSim Toolkit
@@ -33,6 +37,7 @@ import org.cloudbus.iotnetsim.network.NetConnection;
 public class MobileSensor extends SensorNode implements IoTNodeMobile {
 	
 	private Location currentLocation;
+	private Map<Integer, Location> locationTrack;
 
 
 	public MobileSensor(String name) {
@@ -59,8 +64,31 @@ public class MobileSensor extends SensorNode implements IoTNodeMobile {
 		this.currentLocation = location;
 	}
 
+	@Override
+	public void processEvent(SimEvent ev) {
+		// TODO Auto-generated method stub
+		switch (ev.getTag()) {
+			// Execute sending sensor data
+			case CloudSimTags.IOT_SENSOR_SEND_DATA_EVENT:
+				processSendReadingsData();
+				break;
+			case CloudSimTags.IOT_SENSOR_MOVE_EVENT:
+				moveNodeAndChangeLinkNode();
+				break;
+
+			// other unknown tags are processed by this method
+			default:
+				processOtherEvent(ev);
+				break;
+		}
+	}
+
 	public void changeAltitude(double newZ) {
 		
+	}
+
+	public void moveNodeAndChangeLinkNode() {
+
 	}
 	
 	public Location getCurrentLocation() {

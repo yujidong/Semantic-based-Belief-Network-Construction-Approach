@@ -68,4 +68,22 @@ public class Location {
 		this.z = z;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		Location anotherLocation = (Location) object;
+		if((x- anotherLocation.getX() < 0.1) && (y- anotherLocation.getY() < 0.1) && (z- anotherLocation.getZ() < 0.1)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Location{" +
+				"x=" + x +
+				", y=" + y +
+				", z=" + z +
+				'}';
+	}
 }

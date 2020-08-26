@@ -25,10 +25,7 @@ import org.cloudbus.iotnetsim.IoTNodePower;
 import org.cloudbus.iotnetsim.IoTNodePowerType;
 import org.cloudbus.iotnetsim.IoTNodeType;
 import org.cloudbus.iotnetsim.Location;
-import org.cloudbus.iotnetsim.iot.nodes.GatewayNode;
-import org.cloudbus.iotnetsim.iot.nodes.LinkNode;
-import org.cloudbus.iotnetsim.iot.nodes.SensorNode;
-import org.cloudbus.iotnetsim.iot.nodes.SensorType;
+import org.cloudbus.iotnetsim.iot.nodes.*;
 import org.cloudbus.iotnetsim.network.NetConnection;
 import org.cloudbus.iotnetsim.network.NetConnectionType;
 
@@ -76,7 +73,7 @@ public class NaturalEnvIoT_scenarios {
 			String datasetsFolder = workingDir + "//experiments//datasets//";
 			String inputFolder_workload = workingDir + "/experiments//workload//";
 
-			OutputStream output = new FileOutputStream(workingDir + "//experiments//results//NaturalEnvIoT_scenarios.txt");
+			OutputStream output = new FileOutputStream(workingDir + "//experiments//results//NaturalEnvIoT_scenarios2.txt");
 			Log.setOutput(output);	//Uncomment to write output log in the txt files
 
 			Log.printLine("Starting NaturalEnvironmentIoT simple experiment...");

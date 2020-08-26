@@ -32,8 +32,13 @@ public class SensorReading {
 	private int readingIndex; 	//reading number within the day
 	private double readingTime;	//reading time at the simulation time
 	private double readingData;	//actual reading data
-	
-	
+	private double beliefRate;
+	private String semantic;
+	private double realData;
+	private int dataIndex;
+
+
+
 	public SensorReading() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -46,12 +51,17 @@ public class SensorReading {
 //		this.readingData = readingData;
 //	}
 
-	public SensorReading(int sensorId, int readingDay, int readingIndex, double readingTime, double readingData) {
+	public SensorReading(int sensorId, int readingDay, int readingIndex, double readingTime, double readingData,
+						 double beliefRate, String semantic, double realData, int dataIndex) {
 		this.sensorId = sensorId;
 		this.readingDay = readingDay;
 		this.readingIndex = readingIndex;
 		this.readingTime = readingTime;
 		this.readingData = readingData;
+		this.beliefRate = beliefRate;
+		this.semantic = semantic;
+		this.realData = realData;
+		this.dataIndex = dataIndex;
 	}
 
 	
@@ -95,7 +105,19 @@ public class SensorReading {
 		this.readingData = readingData;
 	}
 
+	public double getBeliefRate() {
+		return beliefRate;
+	}
 
-	
+	public double getRealData() {
+		return realData;
+	}
 
+	public String getSemantic() {
+		return semantic;
+	}
+
+	public int getDataIndex() {
+		return dataIndex;
+	}
 }
